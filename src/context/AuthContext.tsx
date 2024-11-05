@@ -5,24 +5,35 @@ import { useRouter } from 'next/navigation';
 import axiosInstance from '@/utils/axiosInstance';
 import Cookies from 'js-cookie'; // Importar js-cookie
 
+
+interface User {
+  _id: string;
+  email: string;
+  nombre: string;
+  rol: string;
+}
+
 interface AuthContextProps {
-  user: any;
+  user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   register: (email: string, password: string, name: string) => Promise<void>;
 }
 
+
+
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const userCookie = Cookies.get('user');
-    const tokenCookie = Cookies.get('token')
+    const userCookie: any = Cookies.get('user');
+    Cookies.get('token')
     // console.log(tokenCookie)
     let user;
+    // console.log(userCookie)
     
     if (userCookie) {
       user = JSON.parse(userCookie);
@@ -45,13 +56,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { token, user } = response.data;
 
       // Guardar token y user en las cookies
-      Cookies.set('token', token, { expires: 7 }); // Token expira en 7 días
-      Cookies.set('user', JSON.stringify(user), { expires: 7 });
+      Cookies.set('token', token,  { expires: 5 / 24 }); // Token expira en 7 días
+      Cookies.set('user', JSON.stringify(user),  { expires: 5 / 24 });
 
       setUser(user); // Actualizar el estado del usuario
 
       router.push('/dashboard');
-    } catch (error) {
+    } catch (error:any) {
       console.error('Login failed:', error.response?.data.message);
       
     }
@@ -68,12 +79,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       const { token, user } = response.data;
 
       // Guardar token y user en las cookies
-      Cookies.set('token', token, { expires: 7 });
-      Cookies.set('user', JSON.stringify(user), { expires: 7 });
+      Cookies.set('token', token, { expires: 5 / 24 });
+      Cookies.set('user', JSON.stringify(user), { expires: 5 / 24 });
 
       setUser(user);
       router.push('/dashboard');
-    } catch (error) {
+    } catch (error:any) {
       console.error('Register failed:', error.response?.data.message);
     }
   };
@@ -81,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     // Eliminar cookies al cerrar sesión
     Cookies.remove('token');
-    Cookies.remove('user');
+    Cookies.remove('user'); // falta cerrar sesion en el backend
 
     setUser(null);
     router.push('/auth');
@@ -94,4 +105,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () =>{
+  const context = useContext(AuthContext);
+  
+  if (!context) {
+    throw new Error('useAuth debe ser usado dentro de un AuthProvider');
+  }
+  
+  return context;
+};

@@ -1,17 +1,29 @@
 'use client'
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+
+interface AutenticationProps {
+  user: any;
+  logout: () => void
+}
 
 const NavBar = () => {
   
   const [open, setOpen] = useState(false);
   const {user, logout} = useAuth()
 
+  // console.log(user)
+
+  const router = useRouter()
+  
+
   const closeSession = () => {
     logout()
     setOpen(false)
   }
+
+  
 
   
   useEffect(() => {
@@ -33,12 +45,12 @@ const NavBar = () => {
           {/* <button className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md">
             Iniciar sesion
           </button> */}
-          {user ? <button 
+          {user && <button 
             onClick={() => setOpen(!open)}
-            className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md">{user.nombre}</button>:
-          <button className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md">
-            Iniciar sesion
-          </button>
+            className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md">{user.nombre}</button>
+          // <button  className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md">
+          //   Iniciar sesion
+          // </button>
           }
           {open && (
             <ul className="">
@@ -48,6 +60,7 @@ const NavBar = () => {
               >
                 Cerrar sesión
               </li>
+              <a href="/dashboard" className="text-gray-300 hover:text-pink-500">Dashboard</a>
             </ul>
           )}
         </div>

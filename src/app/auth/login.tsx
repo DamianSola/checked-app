@@ -1,14 +1,21 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm} from 'react-hook-form';
 import { useAuth } from '@/context/AuthContext';
 
 interface RegisterProps {
   changeRegister: () => void;
 }
 
+interface LoginFormInputs {
+  email: string;
+  password: string;
+}
+
 const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
-  const { register, handleSubmit } = useForm();
-  const { login } = useAuth();
+  const { register, handleSubmit} = useForm();
+  // const { login } = useAuth();
+  const { login } = useAuth() ?? {};
+
 
   // Estado para manejar el error de login
   const [error, setError] = useState<string | null>(null);
@@ -16,17 +23,16 @@ const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
   // Estado para mostrar/ocultar la contraseña
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data:any) => {
     const { email, password } = data;
 
     try {
-      // Resetear el mensaje de error antes de intentar el login
       setError(null);
       
-      // Intentar iniciar sesión con las credenciales
       await login(email, password);
-    } catch (err) {
-      // Si el login falla, se muestra un mensaje de error
+    } catch(error){
+     
+      console.log(error)
       setError('Credenciales incorrectas. Inténtalo de nuevo.');
     }
   };

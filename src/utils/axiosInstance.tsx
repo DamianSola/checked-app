@@ -13,7 +13,6 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = Cookies.get('token')
     // const token = localStorage.getItem('token'); // Obtiene el token JWT desde localStorage
-    console.log(token)
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;  // Agrega el token a los headers
     }

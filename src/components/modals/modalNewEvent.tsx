@@ -1,9 +1,10 @@
+import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreateEvent: (eventData: { nombre: string; fecha: string; lugar: string }) => void;
+  onCreateEvent: (eventData: { nombre: string; fecha: string; lugar: string,  }) => void;
 }
 
 const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onCreateEvent }) => {
@@ -13,8 +14,11 @@ const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onCreateEvent }) =>
 
   const handleCreateEvent = () => {
     if (nombre && fecha && lugar) {
-      onCreateEvent({ nombre, fecha, lugar });
+      onCreateEvent({ nombre, fecha, lugar,});
       onClose();
+      setNombre('')
+      setFecha('')
+      setLugar('')
     } else {
       alert('Por favor completa todos los campos.');
     }
