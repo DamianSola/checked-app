@@ -5,6 +5,9 @@ import axiosInstance from "@/utils/axiosInstance";
 import EventModal from "@/components/modals/modalNewEvent";
 import { useAuth } from "@/context/AuthContext";
 import CustomAlert from '../../components/CustomAlert';
+import Profile from "@/components/UserProfile/userProfile";
+import DeleteAccountModal from "@/components/modals/modalDeleteUser";
+import { useRouter } from "next/navigation";
 
 
 interface Usuario {
@@ -39,6 +42,8 @@ const Dashboard = () => {
     message: '',
     types: ''
   });
+  const [openDelete, setOpenDelete] = useState(false)
+  const router = useRouter()
 
   const data = useAuth()
 
@@ -54,7 +59,7 @@ const Dashboard = () => {
       } catch (err: any) {
         console.log(err)
         setError(err?.response.data?.message);
-        setShowAlert({show: true, message:err?.response.data?.message, types:"success"})
+        setShowAlert({show: true, message:err?.response.data?.message, types:"error"})
       }
     };
 
@@ -63,8 +68,6 @@ const Dashboard = () => {
         const response = id && await axiosInstance.get(`/events/${id}`);
         setEventos(response.data);  
       } catch (err: any) {
-        // console.log(err?.response)
-        // if(err.response?.data.message === 'invelid token')
         err.response && setError(err.response?.data.message);
       }
     };
@@ -80,25 +83,35 @@ const Dashboard = () => {
       }
     };
 
-    const handleEditEvent = async (eventId: string, updatedData: { nombre: string; fecha: string; lugar: string }) => {
-      const { nombre, fecha, lugar } = updatedData;
-    
-      try {
-        const response = await axiosInstance.put(`/events/event/${eventId}`, { nombre, fecha, lugar });
-        setEventos((prevEventos) => 
-          prevEventos.map(evento => evento._id === eventId ? response.data : evento)
-        );  
-      } catch (err: any) {
-        setError(err?.response?.data?.message);
+    const DeleteUser = async() => {
+      const email: string | undefined = data?.user?.email;
+      const password : string | undefined = data?.user?.password
+
+      if(data.user){
+        const email: string = data.user.email;
+        const password : string = data.user.password
+        const dataUser: any = data.user
+        try {
+          await axiosInstance.delete('/users' , {
+            data: {
+              email,
+              password
+            }
+          });
+          router.push('/auth')
+        
+        } catch (err: any) {
+          setShowAlert({show: true, message:err?.response?.data?.message, types:"error"})
+        }
       }
-    };
-    
-    
+
+      
+      setOpenDelete(false)
+    }
   
     useEffect(() => {
       let id = data && data.user?._id ;
       obtenerEventos(id);
-      // if(eventos) setLoading(true) 
     }, [data]);
 
   return (
@@ -109,21 +122,19 @@ const Dashboard = () => {
         onClose={() => setModalOpen(false)}
         onCreateEvent={handleCreateEvent}
       />
-
         
       {showAlert.show && ( <CustomAlert message={showAlert.message} type={showAlert.types} onClose={() => setShowAlert({...showAlert, show: false})} /> )} 
-
 
       <div className="justify-center">
         <p className="text-gray-200 text-xl mb-2">Mis eventos</p>
         <div className="border border-pink-500"></div>
         {loading && <div>Cargando...</div>}
-        {eventos && eventos.map((e,index) => {
+        {eventos && eventos.length > 0? eventos.map((e,index) => {
           return <EventCard
              key={index} name={e.nombre} place={e.lugar} date={e.fecha} listas={e.listas} createdBy={e.creadoPor} id={e._id}  
-             onDelete={handleDeleteEvent}
+             onDelete={handleDeleteEvent} 
           />
-        })}
+        }):<p className="text-gray-300 m-auto text-center p-6">No tienes eventos</p>}
          <div className="flex flex-col w-full justify-center p-4">
         {error && <p className="text-gray-300 m-auto">{error}</p>}
           <button
@@ -133,14 +144,21 @@ const Dashboard = () => {
             Crear Nuevo Evento
             </button>
         </div>
-        
-        
 
       </div>
-      <div className="justify-center">
-        <p className="text-gray-200 text-xl mb-2">Colaboraciones</p>
+
+       <div className="justify-center" id="perfil">
+        <p className="text-gray-200 text-xl mb-2">Perfil</p>
         <div className="border border-pink-500"></div>
-        {/* <EventCard/> */}
+        <div className="py-6">
+          {data.user && <Profile userData ={data.user}/>}
+        </div>
+        <div>
+          <DeleteAccountModal onDelete={DeleteUser} isOpen={openDelete} onClose={() => setOpenDelete(false)}/>
+          <button 
+          onClick={() => setOpenDelete(true)}
+          className="rounded-md text-white bg-red-500 hover:bg-red-600 p-2 ">Eliminar Cuenta</button>
+        </div>
       </div>
       
     </div>

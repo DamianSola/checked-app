@@ -11,6 +11,7 @@ interface User {
   email: string;
   nombre: string;
   rol: string;
+  password: string;
 }
 
 interface AuthContextProps {
@@ -55,16 +56,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const { token, user } = response.data;
 
-      // Guardar token y user en las cookies
       Cookies.set('token', token,  { expires: 5 / 24 }); // Token expira en 7 días
       Cookies.set('user', JSON.stringify(user),  { expires: 5 / 24 });
 
       setUser(user); // Actualizar el estado del usuario
 
       router.push('/dashboard');
+      return response
     } catch (error:any) {
-      console.error('Login failed:', error.response?.data.message);
-      
+      return(error);
     }
   };
 
@@ -77,10 +77,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       const { token, user } = response.data;
+      
+      let newUser = 
 
       // Guardar token y user en las cookies
       Cookies.set('token', token, { expires: 5 / 24 });
-      Cookies.set('user', JSON.stringify(user), { expires: 5 / 24 });
+      Cookies.set('user', JSON.stringify({
+        nombre:user.nombre, email:user.email, password: password, rol:user.rol, _id:user._id
+      }), { expires: 5 / 24 });
 
       setUser(user);
       router.push('/dashboard');
@@ -89,10 +93,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
     // Eliminar cookies al cerrar sesión
     Cookies.remove('token');
     Cookies.remove('user'); // falta cerrar sesion en el backend
+    try{
+
+      await axiosInstance.post('/users/logout');
+    }catch(error:any){
+      console.error('Register failed:', error.response?.data.message);
+    }
 
     setUser(null);
     router.push('/auth');

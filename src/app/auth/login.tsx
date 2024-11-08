@@ -26,15 +26,9 @@ const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
   const onSubmit = async (data:any) => {
     const { email, password } = data;
 
-    try {
-      setError(null);
-      
-      await login(email, password);
-    } catch(error){
-     
-      console.log(error)
-      setError('Credenciales incorrectas. Inténtalo de nuevo.');
-    }
+    setError(null);
+    let response: any = await login(email, password);
+    if(response.status === 400) setError('Credenciales incorrectas. Inténtalo de nuevo.');
   };
 
   return (

@@ -1,28 +1,36 @@
+import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
+import axiosInstance from '@/utils/axiosInstance';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreateEvent: (eventData: { nombre: string; fecha: string; lugar: string,  }) => void;
-  
+  onEdit: (eventData: { nombre: string; fecha: string; lugar: string,  }) => void;
+
 }
 
-const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onCreateEvent }) => {
+const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onEdit }) => {
   const [nombre, setNombre] = useState('');
   const [fecha, setFecha] = useState('');
   const [lugar, setLugar] = useState('');
 
-  const handleCreateEvent = () => {
-    if (nombre && fecha && lugar) {
-      onCreateEvent({ nombre, fecha, lugar,});
-      onClose();
-      setNombre('')
-      setFecha('')
-      setLugar('')
-    } else {
-      alert('Por favor completa todos los campos.');
-    }
+  const handleEditEvent = async () => {
+    onEdit({nombre, fecha, lugar})
+    onClose();
+    setNombre('')
+    setFecha('')
+    setLugar('')
+    // if (nombre && fecha && lugar) {
+    // onEdit({nombre, fecha, lugar})
+    //   onClose();
+    //   setNombre('')
+    //   setFecha('')
+    //   setLugar('')
+    // } else {
+    //   alert('Por favor completa todos los campos.');
+    // }
   };
+
 
   if (!isOpen) return null;
 
@@ -71,10 +79,10 @@ const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onCreateEvent }) =>
           </button>
           <button
             type="button"
-            onClick={handleCreateEvent}
+            onClick={handleEditEvent}
             className="bg-pink-500 text-gray-900 py-2 px-4 rounded-md hover:bg-pink-400 transition-colors"
           >
-            Crear Evento
+            Guardar
           </button>
         </div>
       </div>

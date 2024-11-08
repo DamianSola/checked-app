@@ -10,7 +10,7 @@ import ModalCreateList from '@/components/modals/modalCreateList';
 import EditModal from '@/components/modals/modalEditList';
 import { useRouter } from 'next/navigation';
 import { useEvento } from '@/components/eventContext'
-
+import { useAuth } from '@/context/AuthContext';
 
 
 interface AlertValues {
@@ -48,13 +48,14 @@ const Event = () => {
     const [currentList, setCurrentList] = useState({name:'', _id:'', open: true})
     const { evento, setEvento } = useEvento();
 
-
-
     const [showAlert, setShowAlert] = useState<AlertValues>({
         show: false,
         message: '',
         types: ''
     });
+
+    // const data = useAuth()
+
 
     const handleGetAllLists = async (eventoId: string) => {
         try {
@@ -72,7 +73,6 @@ const Event = () => {
       const GetEvent = async (eventoId: string) => {
         try {
           let response = await axiosInstance.get(`/events/event/${eventoId}`);
-          console.log(response.data)
           setEvento(response.data);
 
         } catch (err: any) {
@@ -114,10 +114,22 @@ const Event = () => {
         setCurrentList({_id: _id, name:nombre, open:open})
     }
 
+    const deleteList = async (listId: string) => {
+
+      try{
+          let response = await axiosInstance.delete(`/lists/${listId}`)
+          setShowAlert({ show: true, message: response.data?.message, types: 'success' });
+          setLists((prevLists) => prevLists.filter(list => list._id !== listId));
+          // console.log(response)
+      }catch(error: any){
+        setShowAlert({ show: true, message: error?.response?.data?.message, types: 'error' });
+      }
+  }
+
     useEffect(() => {
         handleGetAllLists(id)
         GetEvent(id)
-    },[])
+    },[id])
 
 
     return(
@@ -138,7 +150,8 @@ const Event = () => {
             />
 
             <div className="justify-center">
-                <p className="text-gray-200 text-xl mb-2">{evento?.nombre}</p>
+                {evento? <p className="text-gray-200 text-xl mb-2">{evento.nombre}</p>:
+                <p className="text-gray-200 text-xl mb-2">Cargando Evento...</p>}
                 <div className="border border-pink-500"></div>
             </div>
             <div className="text-center md:flex">
@@ -150,9 +163,11 @@ const Event = () => {
                 <div className="w-full py-4">
                     <p className="text-gray-200 text-lg mb-4">Listas</p>
                     <div className="border border-pink-500"></div>
-                    {lists.length > 0 ? (
+                    {!evento ? <p className='text-white m-10'>Cargando Listas</p>:
+                     lists.length > 0 ? (
                         lists.map((l, i) => (
                             <ListCard 
+                            deleteList={() => deleteList(l._id)}
                                 key={i} 
                                 _id={l._id} 
                                 name={l.nombre} 

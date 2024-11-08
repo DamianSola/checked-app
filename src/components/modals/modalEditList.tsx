@@ -32,11 +32,11 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onUpdate, curren
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-white rounded-lg shadow-lg p-6 w-96">
-                <h2 className="text-lg font-bold mb-4">Modificar Lista</h2>
+            <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-gray-200 text-lg font-bold mb-4">Modificar Lista</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
-                        <label className="block text-gray-700 mb-2" htmlFor="name">
+                        <label className="block text-gray-200 mb-2" htmlFor="name">
                             Nombre
                         </label>
                         <input
@@ -52,7 +52,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onUpdate, curren
                         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
                     </div>
                     <div className="mb-4">
-    <label className="block text-gray-700 mb-2" htmlFor="isOpen">
+    <label className="block text-gray-200 mb-2" htmlFor="isOpen">
         ¿Lista Abierta?
     </label>
     <div className="flex items-center">

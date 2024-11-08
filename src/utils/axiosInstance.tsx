@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'; // Importar js-cookie
 const axiosInstance = axios.create({
   
   baseURL: process.env.NEXT_PUBLIC_API_URL,  // URL del backend
+ 
   headers: {
     'Content-Type': 'application/json',
   },

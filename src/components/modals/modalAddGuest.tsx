@@ -42,11 +42,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
 
   const { evento, setEvento } = useEvento();
 
-  // console.log(evento)
-
   const eventoId: any = evento?._id
-
-
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,8 +67,11 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
 
     try {
       const response = await axiosInstance.post('/guest', { nombre, dni, listaId: listId, eventoId });
-      setInputValue({ nombre: "", dni: "" });  // Limpia los campos
-      setShowAlert({ show: true, message: response.data.message, types: 'success' });
+      console.log(response.status)
+      if(response.status === 200) setShowAlert({ show: true, message: response.data.message, types: 'success' });
+      else setShowAlert({ show: true, message: response.data.message, types: 'error' })
+      setInputValue({ nombre: "", dni: "" });  
+      
     } catch (err: any) {
       setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
     }
