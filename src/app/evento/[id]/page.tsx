@@ -10,7 +10,6 @@ import ModalCreateList from '@/components/modals/modalCreateList';
 import EditModal from '@/components/modals/modalEditList';
 import { useRouter } from 'next/navigation';
 import { useEvento } from '@/components/eventContext'
-import { useAuth } from '@/context/AuthContext';
 
 
 interface AlertValues {
@@ -42,7 +41,6 @@ const Event = () => {
 
     const [open, setOpen] = useState(false)
     const [lists, setLists] = useState<Lista[]>([])
-    const [error, setError] = useState<any>(null)
     const [createModal, setCreateModal] = useState(false)
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [currentList, setCurrentList] = useState({name:'', _id:'', open: true})
@@ -54,7 +52,6 @@ const Event = () => {
         types: ''
     });
 
-    // const data = useAuth()
 
 
     const handleGetAllLists = async (eventoId: string) => {
@@ -66,17 +63,15 @@ const Event = () => {
             console.log(err)
             router.push('/dashboard')
             setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
-            setError(err?.response?.data?.message);
         }
       };
 
       const GetEvent = async (eventoId: string) => {
         try {
-          let response = await axiosInstance.get(`/events/event/${eventoId}`);
+          const response = await axiosInstance.get(`/events/event/${eventoId}`);
           setEvento(response.data);
 
         } catch (err: any) {
-            // console.log(err)
             setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
             router.push('/dashboard')
         }
@@ -89,23 +84,20 @@ const Event = () => {
           setShowAlert({ show: true, message: 'Lista creada exitosamente', types: 'success' });
         } catch (err: any) {
           setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
-          setError(err?.response?.data?.message);
         }
       };
 
 
       const handleUpdate = async (nameList: string, updatedListData: any) => {
-        // console.log(listId)
         console.log(updatedListData)
         try {
           const response = await axiosInstance.put(`/lists/${currentList._id}`,{nombre: nameList, abierta: updatedListData});
           setLists((prevLists) => 
             prevLists.map(list => (list._id === currentList._id ? response.data : list)) // Actualiza la lista editada
           );
-        //   setShowAlert({ show: true, message: 'Lista actualizada exitosamente', types: 'success' });
+          setShowAlert({ show: true, message: 'Lista actualizada exitosamente', types: 'success' });
         } catch (err: any) {
           setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
-          setError(err?.response?.data?.message);
         }
       };
 
@@ -117,10 +109,9 @@ const Event = () => {
     const deleteList = async (listId: string) => {
 
       try{
-          let response = await axiosInstance.delete(`/lists/${listId}`)
+          const response = await axiosInstance.delete(`/lists/${listId}`)
           setShowAlert({ show: true, message: response.data?.message, types: 'success' });
           setLists((prevLists) => prevLists.filter(list => list._id !== listId));
-          // console.log(response)
       }catch(error: any){
         setShowAlert({ show: true, message: error?.response?.data?.message, types: 'error' });
       }

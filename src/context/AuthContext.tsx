@@ -16,9 +16,9 @@ interface User {
 
 interface AuthContextProps {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<unknown>;
   logout: () => void;
-  register: (email: string, password: string, name: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<unknown>;
 }
 
 
@@ -30,11 +30,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const userCookie: any = Cookies.get('user');
+    const userCookie: string | undefined = Cookies.get('user');
     Cookies.get('token')
-    // console.log(tokenCookie)
+    
     let user;
-    // console.log(userCookie)
     
     if (userCookie) {
       user = JSON.parse(userCookie);
@@ -63,7 +62,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       router.push('/dashboard');
       return response
-    } catch (error:any) {
+    } catch (error:unknown) {
       return(error);
     }
   };
@@ -77,8 +76,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       });
 
       const { token, user } = response.data;
-      
-      let newUser = 
+    
 
       // Guardar token y user en las cookies
       Cookies.set('token', token, { expires: 5 / 24 });
@@ -88,8 +86,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       setUser(user);
       router.push('/dashboard');
-    } catch (error:any) {
-      console.error('Register failed:', error.response?.data.message);
+    } catch (error:unknown) {
+      console.error('Register failed:', error);
+
     }
   };
 
@@ -100,8 +99,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try{
 
       await axiosInstance.post('/users/logout');
-    }catch(error:any){
-      console.error('Register failed:', error.response?.data.message);
+    }catch(error:unknown){
+      console.error('Register failed:', error);
     }
 
     setUser(null);

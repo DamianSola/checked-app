@@ -1,9 +1,8 @@
 // 'use client'
 import { DateTime } from 'next-auth/providers/kakao';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axiosInstance from '@/utils/axiosInstance';
 import { useEvento } from '@/components/eventContext'
-import { useRouter } from 'next/navigation';
 
 interface ModalProps {
   isOpen: boolean;
@@ -23,9 +22,8 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   const [inputValue, setInputValue] = useState('');
   const [error, setError] = useState('');
   const [guest, setGuest] = useState<GuestState | undefined>(undefined)
-  const { evento, setEvento } = useEvento();
+    const { evento } = useEvento();
 
-  const router = useRouter()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -38,7 +36,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSearch = async () => {
-    let eventoId : any = evento?._id
+    const eventoId : any = evento?._id
     if (inputValue.length <= 8) {
       try{
         const response = await axiosInstance.get(`/guest/${eventoId}/${inputValue}`)
@@ -56,7 +54,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
   const checkGuest = async () => {
     if(guest){
-      let guestId = guest._id
+      const guestId = guest._id
       try{
         await axiosInstance.put(`/guest/${guestId}`)
         setGuest(undefined)
@@ -65,12 +63,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       }
     } 
   }
-  // console.log(guest)
 
-  useEffect(() => {
-    // !evento && router.push('/dashboard')
-  })
-  
 
   if (!isOpen) return null;
 

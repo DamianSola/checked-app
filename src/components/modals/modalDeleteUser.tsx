@@ -14,7 +14,7 @@ const DeleteAccountModal = ({isOpen, onClose, onDelete }: ModalProps) => {
     const handleInputChange = (e: any) => {
         const value = e.target.value;
         setConfirmationText(value);
-        // Validación para habilitar el botón solo si el texto es correcto
+        
         setIsConfirmed(value === 'deseo borrar mi cuenta');
     };
 
@@ -30,7 +30,7 @@ const DeleteAccountModal = ({isOpen, onClose, onDelete }: ModalProps) => {
                     No podrás recuperar los datos.
                 </p>
                 <p className="text-gray-300 mb-4">
-                    Escribe <strong>"deseo borrar mi cuenta"</strong> para confirmar.
+                    Escribe <strong>{'"deseo borrar mi cuenta"'}</strong> para confirmar.
                 </p>
                 <input
                     type="text"

@@ -87,7 +87,8 @@ interface AlertValues {
     
 
     useEffect(() => {
-        _id && getGuest()
+       if( _id) getGuest()
+
     },[_id])
 
     if(!_id) {
@@ -185,18 +186,5 @@ interface AlertValues {
     )
 }
 
-
-
- const FilterName = (handleSearchChange: (event:any) => void , search: string) => {
-    return (
-        <div className="py-4">
-            <input type="text"
-                value={search}
-                onChange={handleSearchChange}
-                placeholder="Buscar invitado"
-                 className="rounded-lg p-2 text-gray"/>
-        </div>
-    )
-}
 
 export default ListCard;

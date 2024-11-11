@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useEvento } from '@/components/eventContext'
 import ModalAlert from "../modals/modalAlert.";
 import EventModal from "../modals/modalEditEvent";
 import axiosInstance from "@/utils/axiosInstance";
@@ -11,7 +10,7 @@ interface EventCardProps {
     name: string;
     date: string;
     place: string;
-    createdBy: Object;
+    // createdBy: Object;
     listas: any;
     onDelete: (eventId: string) => Promise<void>
     
@@ -24,7 +23,7 @@ interface AlertValues {
     types: string
   }
 
-const EventCard :React.FC<EventCardProps> = ({ name, place, date, createdBy, id, listas, onDelete })=> {
+const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, onDelete })=> {
 
     const router = useRouter()
     // const { evento, setEvento } = useEvento();
@@ -64,7 +63,7 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, createdBy, id,
           const response = await axiosInstance.put(`/events/event/${id}`, updatedData);
           console.log(response)
         setShowAlert({show: true, message:response.data.message, types:"success"})
-        let {nombre, lugar, fecha} = response.data.eventoEditado
+        const {nombre, lugar, fecha} = response.data.eventoEditado
         setEvento({...evento, nombre: nombre, fecha:fecha, lugar:lugar})
         } catch (err: any) {
         //   setError(err?.response?.data?.message);
@@ -72,9 +71,6 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, createdBy, id,
         }
       };
 
-     
-
-    
 
     return(
         <div className="bg-gray-800 my-6 p-6 xl:w-3/4 rounded-xl ">

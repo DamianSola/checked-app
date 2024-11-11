@@ -1,18 +1,7 @@
-// import { AuthProvider } from '../context/AuthContext';
-import NavBar from '@/components/navBars/navBar';
 import './globals.css';
 import FreeCard from '@/components/planes/freeCard';
 import PremiumCard from '@/components/planes/premiumCard';
 
-// function MyApp({ Component, pageProps }: any) {
-//   return (
-//     <AuthProvider>
-//       <Component {...pageProps} />
-//     </AuthProvider>
-//   );
-// }
-
-// export default MyApp;
 
 
 const MyApp = () => {

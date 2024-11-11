@@ -10,17 +10,16 @@ import DeleteAccountModal from "@/components/modals/modalDeleteUser";
 import { useRouter } from "next/navigation";
 
 
-interface Usuario {
-  _id: string;
-  name: string;
-}
+// interface Usuario {
+//   _id: string;
+//   name: string;
+// }
 
 interface Evento {
   nombre: string;
   fecha: string;
   lugar: string;
   _id: string;
-  creadoPor: Usuario | string;
   listas: any;
 }
 
@@ -35,7 +34,7 @@ const Dashboard = () => {
   
   const [eventos, setEventos] = useState<Evento[]>([]); 
   const [error, setError] = useState<string>(''); 
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [loading, setLoading] = useState<boolean>(true); 
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<AlertValues>({
     show: false,
@@ -53,12 +52,12 @@ const Dashboard = () => {
       const {nombre, fecha, lugar} = eventData;
     
       try {
-        const response = await axiosInstance.post('/events', {nombre, fecha, lugar, creadoPor:data?.user?._id});
+        await axiosInstance.post('/events', {nombre, fecha, lugar, creadoPor:data?.user?._id});
         setShowAlert({show: true, message:'se agrego un nuevo evento', types:"success"})
         obtenerEventos(data?.user?._id)  
       } catch (err: any) {
         console.log(err)
-        setError(err?.response.data?.message);
+        // setError(err?.response.data?.message);
         setShowAlert({show: true, message:err?.response.data?.message, types:"error"})
       }
     };
@@ -66,9 +65,14 @@ const Dashboard = () => {
     const obtenerEventos = async (id:any) => {
       try {
         const response = id && await axiosInstance.get(`/events/${id}`);
-        setEventos(response.data);  
-      } catch (err: any) {
-        err.response && setError(err.response?.data.message);
+        setLoading(false)
+        setEventos(response.data); 
+      } catch (err: any | undefined) {
+        if(err.name === 'AxiosError' || err.name === 'TypeError'){
+          setError("sin conexion con la base de datos");
+
+        }
+        // err.response && setShowAlert({show: true, message:err.response.data?.message, types:"error"})
       }
     };
 
@@ -79,18 +83,18 @@ const Dashboard = () => {
         setEventos((prevEventos) => prevEventos.filter(evento => evento._id !== eventId));  
       } catch (err: any) {
         setShowAlert({show: true, message:err?.response?.data?.message, types:"error"})
-        setError(err?.response?.data?.message);
+        // setError(err?.response?.data?.message);
       }
     };
 
     const DeleteUser = async() => {
-      const email: string | undefined = data?.user?.email;
-      const password : string | undefined = data?.user?.password
+      // const email: string | undefined = data?.user?.email;
+      // const password : string | undefined = data?.user?.password
 
       if(data.user){
         const email: string = data.user.email;
         const password : string = data.user.password
-        const dataUser: any = data.user
+        // const dataUser: any = data.user
         try {
           await axiosInstance.delete('/users' , {
             data: {
@@ -110,7 +114,7 @@ const Dashboard = () => {
     }
   
     useEffect(() => {
-      let id = data && data.user?._id ;
+      const id = data && data.user?._id ;
       obtenerEventos(id);
     }, [data]);
 
@@ -128,15 +132,19 @@ const Dashboard = () => {
       <div className="justify-center">
         <p className="text-gray-200 text-xl mb-2">Mis eventos</p>
         <div className="border border-pink-500"></div>
-        {loading && <div>Cargando...</div>}
-        {eventos && eventos.length > 0? eventos.map((e,index) => {
+        {!loading && eventos.length > 0  && eventos.map((e,index) => {
           return <EventCard
-             key={index} name={e.nombre} place={e.lugar} date={e.fecha} listas={e.listas} createdBy={e.creadoPor} id={e._id}  
+             key={index} name={e.nombre} place={e.lugar} date={e.fecha} listas={e.listas}  id={e._id}  
              onDelete={handleDeleteEvent} 
           />
-        }):<p className="text-gray-300 m-auto text-center p-6">No tienes eventos</p>}
+        })}
+        {loading && !error && <p className="text-gray-300 m-auto text-center p-6">Cargando ...</p>}
+        {         
+        !loading && !error && eventos.length === 0 && <div><p className="text-gray-300 m-auto text-center p-6">No tienes eventos</p></div>
+        }
          <div className="flex flex-col w-full justify-center p-4">
-        {error && <p className="text-gray-300 m-auto">{error}</p>}
+
+        {error && <p className="text-gray-300 m-auto my-10">{error}</p>}
           <button
             onClick={() => setModalOpen(true)}
             className="text-pink-500 cursor-pointer  py-2"

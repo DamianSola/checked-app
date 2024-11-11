@@ -6,10 +6,7 @@ interface RegisterProps {
   changeRegister: () => void;
 }
 
-interface LoginFormInputs {
-  email: string;
-  password: string;
-}
+
 
 const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
   const { register, handleSubmit} = useForm();
@@ -24,10 +21,10 @@ const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data:any) => {
-    const { email, password } = data;
+    const { email, password } = data ;
 
     setError(null);
-    let response: any = await login(email, password);
+    const response: any = await login(email, password);
     if(response.status === 400) setError('Credenciales incorrectas. Inténtalo de nuevo.');
   };
 

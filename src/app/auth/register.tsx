@@ -5,11 +5,6 @@ interface RegisterProps {
   changeLogin: () => void;
 }
 
-interface RegisterFormInputs {
-  email: string;
-  password: string;
-  name:string;
-}
 
 const Register: React.FC<RegisterProps> = ({ changeLogin }) => {
   const { register,handleSubmit } = useForm();
@@ -21,7 +16,7 @@ const Register: React.FC<RegisterProps> = ({ changeLogin }) => {
 
     try{
       await registerUser(email, password, name);
-    }catch(error){
+    }catch(error: any){
       console.log(error)
     }
   };

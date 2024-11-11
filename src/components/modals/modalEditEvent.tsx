@@ -1,6 +1,4 @@
-import { useAuth } from '@/context/AuthContext';
 import { useState } from 'react';
-import axiosInstance from '@/utils/axiosInstance';
 
 interface ModalProps {
   isOpen: boolean;
@@ -20,15 +18,7 @@ const EventModal: React.FC<ModalProps> = ({ isOpen, onClose, onEdit }) => {
     setNombre('')
     setFecha('')
     setLugar('')
-    // if (nombre && fecha && lugar) {
-    // onEdit({nombre, fecha, lugar})
-    //   onClose();
-    //   setNombre('')
-    //   setFecha('')
-    //   setLugar('')
-    // } else {
-    //   alert('Por favor completa todos los campos.');
-    // }
+  
   };
 
 

@@ -1,52 +1,27 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
-import { useEvento } from '@/components/eventContext'
 
-
-interface ScoreProps {
-    guests : []
-}
-
-interface GuestState  {
-    nombre: string,
-    dni: string,
-    _id: string,
-    eventoId: string
-}
-
-interface AlertValues {
-    show: boolean;
-    message: string;
-    types: string
-}
 
 const GuestScore = ({eventoId}: any) => {
 
-    // const [guest, setGuest] = useState<GuestState[]>([])
     const [count, SetCount] = useState({
         total: 0,
         present: 0,
     })
 
-    const [showAlert, setShowAlert] = useState<AlertValues>({
-        show: false,
-        message: '',
-        types: ''
-    });
+    const [error, setError] = useState<string | undefined>()
 
-    const { evento, setEvento } = useEvento();
 
 
     const getGuest = async () => {
         try{
             const response = await axiosInstance.get(`/guest/guestEvent/${eventoId}`)
-            // console.log(response.data)
-            let presentGuest = response.data.filter((g:any) => g.estado === 'admitido')
+            const presentGuest = response.data.filter((g:any) => g.estado === 'admitido')
 
             SetCount({total: response.data.length, present: presentGuest.length})
         }catch(err :any){
-            console.log(err)
-            setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
+            setError('Ups ¡Algo salio mal!')
+           
         }
     }
 
@@ -54,6 +29,12 @@ const GuestScore = ({eventoId}: any) => {
     useEffect(()=>{
         getGuest()
     },[])
+
+    if(error) return (
+        <div className="rounded-xl bg-gray-800 p-8 text-center m-4 md:w-60">
+            <p className="text-ms text-gray-400 ">{error}</p>
+        </div>
+    )
 
 
     return (

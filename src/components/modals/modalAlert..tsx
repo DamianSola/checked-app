@@ -4,7 +4,7 @@ import React from 'react';
 
 interface ModalAlertProps {
   onClose: () => void;
-  handleDelete: (id:any) => void;
+  handleDelete: (id:string | undefined) => void;
   open: boolean
 }
 
@@ -27,7 +27,7 @@ const ModalAlert: React.FC<ModalAlertProps> = ({open, onClose, handleDelete }) =
                     Cancelar
                 </button>
                 <button
-                    onClick={handleDelete}
+                    onClick={() => handleDelete("hola")}
                     className="py-2 px-4 bg-pink-500 text-white rounded hover:bg-pink-600"
                 >
                     Eliminar

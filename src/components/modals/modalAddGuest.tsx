@@ -23,13 +23,13 @@ interface inputValues {
   dni: number | string;
 }
 
-interface Evento{
-  lugar: string;
-  nombre: string;
-  _id: string;
-  fecha: any
+// interface Evento{
+//   lugar: string;
+//   nombre: string;
+//   _id: string;
+//   fecha: any
 
-}
+// }
 
 const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName }) => {
   const [inputValue, setInputValue] = useState<inputValues>({ nombre: "", dni: "" });
@@ -40,7 +40,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
     types: ''
   });
 
-  const { evento, setEvento } = useEvento();
+  const { evento } = useEvento();
 
   const eventoId: any = evento?._id
 
@@ -67,7 +67,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
 
     try {
       const response = await axiosInstance.post('/guest', { nombre, dni, listaId: listId, eventoId });
-      console.log(response.status)
+      
       if(response.status === 200) setShowAlert({ show: true, message: response.data.message, types: 'success' });
       else setShowAlert({ show: true, message: response.data.message, types: 'error' })
       setInputValue({ nombre: "", dni: "" });  
@@ -90,7 +90,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
           />
         )}
 
-        <h2 className="text-xl mb-4 text-pink-500">Agregar invitado a "{listName}"</h2>
+        <h2 className="text-xl mb-4 text-pink-500">{`Agregar invitado a "${listName}"`}</h2>
         <input
           type="text"
           name="nombre"
