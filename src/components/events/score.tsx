@@ -19,9 +19,8 @@ const GuestScore = ({eventoId}: any) => {
             const presentGuest = response.data.filter((g:any) => g.estado === 'admitido')
 
             SetCount({total: response.data.length, present: presentGuest.length})
-        }catch(err :any){
+        }catch{
             setError('Ups ¡Algo salio mal!')
-           
         }
     }
 
