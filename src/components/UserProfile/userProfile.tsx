@@ -18,7 +18,7 @@ interface User{
 }
 
 interface PropsUser {
-    userData: User | any
+    userData: User
 
 }
 
@@ -54,7 +54,7 @@ const Profile = ({userData}:PropsUser) => {
 
   const handleSave = async () => {
     try{
-      const response: any = await axiosInstance.put(`users/${userData._id}`, editUser)
+      const response = await axiosInstance.put(`users/${userData._id}`, editUser)
       alert(response.data.message)
       console.log(response.data)
       setUser(editUser);  // Guardar los cambios
@@ -63,7 +63,7 @@ const Profile = ({userData}:PropsUser) => {
       logout()
       await login(response.data.user.email, response.data.user.password)
       
-    }catch(error: any){
+    }catch(error){
       alert(error)
     }
     

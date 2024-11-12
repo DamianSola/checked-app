@@ -1,23 +1,28 @@
-import { useForm} from 'react-hook-form';
+import { useForm, SubmitHandler} from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 
 interface RegisterProps {
   changeLogin: () => void;
 }
 
+interface DataForm{
+  email: string;
+  password: string;
+  name: string;
+}
 
 const Register: React.FC<RegisterProps> = ({ changeLogin }) => {
-  const { register,handleSubmit } = useForm();
+  const { register,handleSubmit } =  useForm<DataForm>();
   const { register: registerUser } =  useAuth() ?? {};
 
 
-  const onSubmit =  async (data:any) => {
+  const onSubmit : SubmitHandler<DataForm> =  async (data) => {
     const { email, password, name } = data;
 
     try{
       await registerUser(email, password, name);
-    }catch(error: any){
-      console.log(error)
+    }catch{
+     alert('hubo un error')
     }
   };
 

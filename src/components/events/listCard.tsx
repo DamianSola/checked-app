@@ -10,9 +10,18 @@ interface ListProps {
     name: string;
     open: boolean;
     guest: [];
-    updateList: (props:any) => void
-    deleteList: (props:any) => void
+    updateList: () => void
+    deleteList: (props:string) => void
 }
+
+interface ApiError {
+    response: {
+        data: {
+            message: string;
+        };
+    };
+  }
+  
 
 interface GuestList {
     _id: string;
@@ -25,7 +34,12 @@ interface AlertValues {
     show: boolean;
     message: string;
     types: string
-  }
+}
+
+interface DeleteGuest {
+    guestId: string ;
+    open: boolean;
+}
 
  const ListCard = ({_id, name, open, updateList, deleteList}: ListProps) => {
 
@@ -38,11 +52,11 @@ interface AlertValues {
         message: '',
         types: ''
     });
-    const [openDeleteGuest,setOpenDeleteGuest] = useState<any>({guestId: null, open:false})
+    const [openDeleteGuest,setOpenDeleteGuest] = useState<DeleteGuest>({guestId: '', open:false})
     // const [filterGuest, setFilterGuest] = useState<GuestList[]>([])
     const [search, setSearch] = useState('');
 
-    const handleSearchChange = (event:any) => {
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };
 
@@ -56,25 +70,35 @@ interface AlertValues {
             const response = await axiosInstance.get(`/guest/${_id}`)
             setGuest(response.data)
             // setFilterGuest(response.data)
-        }catch(err :any){
-            console.log(err)
-            setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
-        }
+        }catch (err: unknown) {
+            let message: string;
+          if ((err as ApiError).response?.data?.message) {
+            message = (err as ApiError).response.data.message;
+            setShowAlert({ show: true, message: message, types: "error" });
+          } else {
+            setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+          }
+          }
     }
 
     const deleteGuest = async (guestId: string) => {
         try{
             const response = await axiosInstance.delete(`/guest/${guestId}`)
             setShowAlert({ show: true, message: response.data?.message, types: 'success' });
-        }catch(error: any){
-            console.log(error)
-            setShowAlert({ show: true, message: error?.response?.data?.message, types: 'error' });
-        }
+        }catch (err: unknown) {
+            let message: string;
+          if ((err as ApiError).response?.data?.message) {
+            message = (err as ApiError).response.data.message;
+            setShowAlert({ show: true, message: message, types: "error" });
+          } else {
+            setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+          }
+          }
     }
 
-    const deleteGuestAlert = (id:any) => {
+    const deleteGuestAlert = (id:string) => {
         deleteGuest(id)
-        setOpenDeleteGuest({guestId:null, open:false})
+        setOpenDeleteGuest({guestId:'', open:false})
         setGuest((prevGuest) => prevGuest.filter(guest => guest._id !== id))
     }
 
@@ -104,7 +128,7 @@ interface AlertValues {
                     onClose={() => setShowAlert({...showAlert, show: false})} /> 
                 )}
             <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete}/>
-            <ModalAlert open={openDeleteGuest.open} onClose={() => setOpenDeleteGuest({open:false})} handleDelete={() => deleteGuestAlert(openDeleteGuest.guestId)}/>
+            <ModalAlert open={openDeleteGuest.open} onClose={() => setOpenDeleteGuest({...openDeleteGuest, open:false})} handleDelete={() => deleteGuestAlert(openDeleteGuest.guestId)}/>
 
             <div className="md:flex  md:items-center md:justify-between md:space-x-4">
 

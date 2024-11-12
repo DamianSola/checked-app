@@ -23,13 +23,14 @@ interface inputValues {
   dni: number | string;
 }
 
-// interface Evento{
-//   lugar: string;
-//   nombre: string;
-//   _id: string;
-//   fecha: any
+interface ApiError {
+  response: {
+      data: {
+          message: string;
+      };
+  };
+}
 
-// }
 
 const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName }) => {
   const [inputValue, setInputValue] = useState<inputValues>({ nombre: "", dni: "" });
@@ -42,7 +43,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
 
   const { evento } = useEvento();
 
-  const eventoId: any = evento?._id
+  const eventoId: string | undefined = evento?._id
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,8 +73,14 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
       else setShowAlert({ show: true, message: response.data.message, types: 'error' })
       setInputValue({ nombre: "", dni: "" });  
       
-    } catch (err: any) {
-      setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
+    }catch (err: unknown) {
+      let message: string;
+    if ((err as ApiError).response?.data?.message) {
+      message = (err as ApiError).response.data.message;
+      setShowAlert({ show: true, message: message, types: "error" });
+    } else {
+      setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+    }
     }
   };
 

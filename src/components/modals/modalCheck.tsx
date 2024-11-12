@@ -9,6 +9,14 @@ interface ModalProps {
   onClose: () => void;
 }
 
+interface ApiError {
+  response: {
+      data: {
+          message: string;
+      };
+  };
+}
+
 interface GuestState {
   nombre: string;
   dni: string;
@@ -36,15 +44,20 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   };
 
   const handleSearch = async () => {
-    const eventoId : any = evento?._id
+    const eventoId : string | undefined = evento?._id
     if (inputValue.length <= 8) {
       try{
         const response = await axiosInstance.get(`/guest/${eventoId}/${inputValue}`)
         console.log(response.data)
         setGuest(response.data.guest)
-      }catch(err :any){
-        // console.log(err)
-        setError(err.response?.data.message)
+      }catch (err: unknown) {
+        let message: string;
+      if ((err as ApiError).response?.data?.message) {
+        message = (err as ApiError).response.data.message;
+        setError(message)
+      } else {
+      setError('hubo un error en la busqueda')
+      }
       }
     } else {
       setError('El número no puede tener más de 8 dígitos');
@@ -58,7 +71,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       try{
         await axiosInstance.put(`/guest/${guestId}`)
         setGuest(undefined)
-      }catch(err :any){
+      }catch(err :unknown){
         console.log(err)
       }
     } 
@@ -110,8 +123,9 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
+
 interface Encontrado {
-  guest: any;
+  guest: {estado:string, dni:string, nombre:string};
   checkGuest: () => void;
   onClose: () => void;
 }

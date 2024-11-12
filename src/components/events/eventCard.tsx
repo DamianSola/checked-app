@@ -10,11 +10,23 @@ interface EventCardProps {
     name: string;
     date: string;
     place: string;
-    // createdBy: Object;
-    listas: any;
+    listas: [];
     onDelete: (eventId: string) => Promise<void>
     
 }
+
+// interface ListaData {
+//     _id: string;
+// }
+
+interface ApiError {
+    response: {
+        data: {
+            message: string;
+        };
+    };
+  }
+  
 
 
 interface AlertValues {
@@ -65,10 +77,15 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
         setShowAlert({show: true, message:response.data.message, types:"success"})
         const {nombre, lugar, fecha} = response.data.eventoEditado
         setEvento({...evento, nombre: nombre, fecha:fecha, lugar:lugar})
-        } catch (err: any) {
-        //   setError(err?.response?.data?.message);
-        setShowAlert({show: true, message:err?.response?.data?.message, types:"success"})
-        }
+        }catch (err: unknown) {
+            let message: string;
+          if ((err as ApiError).response?.data?.message) {
+            message = (err as ApiError).response.data.message;
+            setShowAlert({ show: true, message: message, types: "error" });
+          } else {
+            setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+          }
+          }
       };
 
 

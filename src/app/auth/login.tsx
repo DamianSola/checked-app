@@ -1,15 +1,19 @@
 import { useState } from 'react';
-import { useForm} from 'react-hook-form';
+import { useForm, SubmitHandler} from 'react-hook-form';
 import { useAuth } from '@/context/AuthContext';
 
 interface RegisterProps {
   changeRegister: () => void;
 }
 
-
+interface DataForm {
+  email: string;
+  password: string;
+}
 
 const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
-  const { register, handleSubmit} = useForm();
+  
+  const { register, handleSubmit} = useForm<DataForm>();
   // const { login } = useAuth();
   const { login } = useAuth() ?? {};
 
@@ -20,12 +24,12 @@ const Login: React.FC<RegisterProps> = ({ changeRegister }) => {
   // Estado para mostrar/ocultar la contraseña
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = async (data:any) => {
+  const onSubmit : SubmitHandler<DataForm>  = async (data) => {
     const { email, password } = data ;
 
     setError(null);
-    const response: any = await login(email, password);
-    if(response.status === 400) setError('Credenciales incorrectas. Inténtalo de nuevo.');
+    const response : unknown = await login(email, password);
+    if(response === 400) setError('Credenciales incorrectas. Inténtalo de nuevo.');
   };
 
   return (

@@ -10,23 +10,27 @@ import DeleteAccountModal from "@/components/modals/modalDeleteUser";
 import { useRouter } from "next/navigation";
 
 
-// interface Usuario {
-//   _id: string;
-//   name: string;
-// }
 
 interface Evento {
   nombre: string;
   fecha: string;
   lugar: string;
   _id: string;
-  listas: any;
+  listas: [];
 }
 
 interface AlertValues {
   show: boolean;
   message: string;
   types: string
+}
+
+interface ApiError {
+  response: {
+      data: {
+          message: string;
+      };
+  };
 }
 
 
@@ -50,29 +54,47 @@ const Dashboard = () => {
 
     const handleCreateEvent = async (eventData: { nombre: string; fecha: string; lugar: string }) => {
       const {nombre, fecha, lugar} = eventData;
-    
+
       try {
-        await axiosInstance.post('/events', {nombre, fecha, lugar, creadoPor:data?.user?._id});
-        setShowAlert({show: true, message:'se agrego un nuevo evento', types:"success"})
-        obtenerEventos(data?.user?._id)  
-      } catch (err: any) {
-        console.log(err)
-        // setError(err?.response.data?.message);
-        setShowAlert({show: true, message:err?.response.data?.message, types:"error"})
-      }
+      let userId: string 
+      if(data.user){ 
+        userId = data.user._id; 
+        if(userId){
+          
+          await axiosInstance.post('/events', {nombre, fecha, lugar, creadoPor:userId});
+          setShowAlert({show: true, message:'se agrego un nuevo evento', types:"success"})
+          obtenerEventos(userId)  
+        }else{
+          setShowAlert({show: true, message:'No se pudo agregar el evento. ', types:"error"})
+        }
+      }else  setShowAlert({show: true, message:'No se pudo agregar el evento. ', types:"error"})
+
+      } catch (err: unknown) {
+        let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
+      }     
     };
 
-    const obtenerEventos = async (id:any) => {
+    const obtenerEventos = async (id:string) => {
       try {
-        const response = id && await axiosInstance.get(`/events/${id}`);
+        const response =  await axiosInstance.get(`/events/${id}`);
         setLoading(false)
         setEventos(response.data); 
-      } catch (err: any | undefined) {
-        if(err.name === 'AxiosError' || err.name === 'TypeError'){
-          setError("sin conexion con la base de datos");
-
+      } catch (err: unknown) {
+        let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setError(message)
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
         }
-        // err.response && setShowAlert({show: true, message:err.response.data?.message, types:"error"})
+       
       }
     };
 
@@ -81,16 +103,19 @@ const Dashboard = () => {
         await axiosInstance.delete(`/events/event/${eventId}`);
         setShowAlert({show: true, message:'se elimino el evento', types:"success"})
         setEventos((prevEventos) => prevEventos.filter(evento => evento._id !== eventId));  
-      } catch (err: any) {
-        setShowAlert({show: true, message:err?.response?.data?.message, types:"error"})
-        // setError(err?.response?.data?.message);
+      } catch (err: unknown) {
+        let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
+       
       }
     };
 
     const DeleteUser = async() => {
-      // const email: string | undefined = data?.user?.email;
-      // const password : string | undefined = data?.user?.password
-
       if(data.user){
         const email: string = data.user.email;
         const password : string = data.user.password
@@ -104,18 +129,25 @@ const Dashboard = () => {
           });
           router.push('/auth')
         
-        } catch (err: any) {
-          setShowAlert({show: true, message:err?.response?.data?.message, types:"error"})
+        } catch (err: unknown) {
+          let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
         }
       }
-
-      
       setOpenDelete(false)
     }
   
     useEffect(() => {
-      const id = data && data.user?._id ;
-      obtenerEventos(id);
+      let id:string;
+      if(data.user){ 
+        id =data.user?._id
+        obtenerEventos(id);
+      }
     }, [data]);
 
   return (

@@ -3,9 +3,9 @@ import React from 'react';
 
 interface ModalChangeProps {
   onClose: () => void;
-  handleSubmit: (id:any) => void;
+  handleSubmit: () => void;
   open: boolean;
-  userData: any
+  userData: {password:string, email:string, username:string}
 }
 
 const ModalAlert: React.FC<ModalChangeProps> = ({open, onClose, handleSubmit, userData }) => {

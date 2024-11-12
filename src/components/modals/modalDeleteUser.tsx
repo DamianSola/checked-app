@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 interface ModalProps{
     onClose: () => void;
@@ -11,8 +11,8 @@ const DeleteAccountModal = ({isOpen, onClose, onDelete }: ModalProps) => {
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     // Función para manejar el cambio en el input
-    const handleInputChange = (e: any) => {
-        const value = e.target.value;
+    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const {value} = e.target;
         setConfirmationText(value);
         
         setIsConfirmed(value === 'deseo borrar mi cuenta');

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import axiosInstance from "@/utils/axiosInstance";
 
+interface GuestScoreProps {
+    eventoId: string;
+  }
 
-const GuestScore = ({eventoId}: any) => {
+const GuestScore: React.FC<GuestScoreProps> = ({eventoId}) => {
 
     const [count, SetCount] = useState({
         total: 0,
@@ -16,7 +19,7 @@ const GuestScore = ({eventoId}: any) => {
     const getGuest = async () => {
         try{
             const response = await axiosInstance.get(`/guest/guestEvent/${eventoId}`)
-            const presentGuest = response.data.filter((g:any) => g.estado === 'admitido')
+            const presentGuest = response.data.filter((g:{estado:string}) => g.estado === 'admitido')
 
             SetCount({total: response.data.length, present: presentGuest.length})
         }catch{
@@ -27,7 +30,7 @@ const GuestScore = ({eventoId}: any) => {
 
     useEffect(()=>{
         getGuest()
-    },[])
+    },[eventoId])
 
     if(error) return (
         <div className="rounded-xl bg-gray-800 p-8 text-center m-4 md:w-60">

@@ -61,9 +61,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(user); // Actualizar el estado del usuario
 
       router.push('/dashboard');
-      return response
-    } catch (error:unknown) {
-      return(error);
+      return 200
+    } catch{
+       return 400;
     }
   };
 

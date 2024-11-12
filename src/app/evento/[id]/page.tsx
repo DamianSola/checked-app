@@ -8,7 +8,6 @@ import CustomAlert from '@/components/CustomAlert';
 import axiosInstance from '@/utils/axiosInstance';
 import ModalCreateList from '@/components/modals/modalCreateList';
 import EditModal from '@/components/modals/modalEditList';
-import { useRouter } from 'next/navigation';
 import { useEvento } from '@/components/eventContext'
 
 
@@ -33,11 +32,20 @@ interface List {
     open: boolean;
 }
 
-  
+interface ApiError {
+  response: {
+      data: {
+          message: string;
+      };
+  };
+}
+
+
 const Event = () => {
 
-    const {id} = useParams<any>()
-    const router = useRouter()
+  const idParam = useParams()
+  const id: string | unknown = idParam && idParam.id 
+  
 
     const [open, setOpen] = useState(false)
     const [lists, setLists] = useState<Lista[]>([])
@@ -54,41 +62,56 @@ const Event = () => {
 
 
 
-    const handleGetAllLists = async (eventoId: string) => {
+    const handleGetAllLists = async (eventoId: string| unknown) => {
         try {
           const response = await axiosInstance.get(`/lists/${eventoId}`);
           setLists(response.data); // Asumiendo que tienes un estado para almacenar las listas
           setShowAlert({ show: true, message: 'Listas cargadas exitosamente', types: 'success' });
-        } catch (err: any) {
-            console.log(err)
-            router.push('/dashboard')
-            setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
+        } catch (err: unknown) {
+          let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
         }
       };
 
-      const GetEvent = async (eventoId: string) => {
+      const GetEvent = async (eventoId: string | unknown) => {
         try {
           const response = await axiosInstance.get(`/events/event/${eventoId}`);
           setEvento(response.data);
 
-        } catch (err: any) {
-            setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
-            router.push('/dashboard')
+        } catch (err: unknown) {
+          let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
         }
       };
 
-    const handleCreateList = async (newListData: any) => {
+    const handleCreateList = async (newListData: string) => {
         try {
           const response = await axiosInstance.post('/lists', {nombre:newListData, eventoId:id});
           setLists((prevLists) => [...prevLists, response.data]); // Agrega la nueva lista al estado
           setShowAlert({ show: true, message: 'Lista creada exitosamente', types: 'success' });
-        } catch (err: any) {
-          setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
+        } catch (err: unknown) {
+          let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
         }
       };
 
 
-      const handleUpdate = async (nameList: string, updatedListData: any) => {
+      const handleUpdate = async (nameList: string, updatedListData: boolean) => {
         console.log(updatedListData)
         try {
           const response = await axiosInstance.put(`/lists/${currentList._id}`,{nombre: nameList, abierta: updatedListData});
@@ -96,8 +119,14 @@ const Event = () => {
             prevLists.map(list => (list._id === currentList._id ? response.data : list)) // Actualiza la lista editada
           );
           setShowAlert({ show: true, message: 'Lista actualizada exitosamente', types: 'success' });
-        } catch (err: any) {
-          setShowAlert({ show: true, message: err?.response?.data?.message, types: 'error' });
+        }catch (err: unknown) {
+          let message: string;
+        if ((err as ApiError).response?.data?.message) {
+          message = (err as ApiError).response.data.message;
+          setShowAlert({ show: true, message: message, types: "error" });
+        } else {
+          setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+        }
         }
       };
 
@@ -112,8 +141,14 @@ const Event = () => {
           const response = await axiosInstance.delete(`/lists/${listId}`)
           setShowAlert({ show: true, message: response.data?.message, types: 'success' });
           setLists((prevLists) => prevLists.filter(list => list._id !== listId));
-      }catch(error: any){
-        setShowAlert({ show: true, message: error?.response?.data?.message, types: 'error' });
+      }catch (err: unknown) {
+        let message: string;
+      if ((err as ApiError).response?.data?.message) {
+        message = (err as ApiError).response.data.message;
+        setShowAlert({ show: true, message: message, types: "error" });
+      } else {
+        setShowAlert({ show: true, message: 'No se pudo agregar el evento.', types: "error" });
+      }
       }
   }
 
@@ -147,7 +182,7 @@ const Event = () => {
             </div>
             <div className="text-center md:flex">
                 <div>
-                    <GuestScore eventoId = {id}/>
+                    <GuestScore eventoId={String(id)}/>
                     <button onClick={() => setOpen(!open)} 
                         className="bg-green-500 p-6 text-gray-900 font-bold text-xl my-2 rounded-xl">To Check</button>
                 </div>
