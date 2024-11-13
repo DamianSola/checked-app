@@ -46,7 +46,6 @@ const Dashboard = () => {
     types: ''
   });
   const [openDelete, setOpenDelete] = useState(false)
-  const router = useRouter()
 
   const data = useAuth()
   
