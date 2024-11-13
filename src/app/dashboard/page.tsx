@@ -49,6 +49,8 @@ const Dashboard = () => {
   const router = useRouter()
 
   const data = useAuth()
+  
+
 
 
 
@@ -127,8 +129,8 @@ const Dashboard = () => {
               password
             }
           });
-          router.push('/auth')
-        
+          const {logout} = data
+          logout()        
         } catch (err: unknown) {
           let message: string;
         if ((err as ApiError).response?.data?.message) {
