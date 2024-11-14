@@ -7,8 +7,6 @@ import { useAuth } from "@/context/AuthContext";
 import CustomAlert from '../../components/CustomAlert';
 import Profile from "@/components/UserProfile/userProfile";
 import DeleteAccountModal from "@/components/modals/modalDeleteUser";
-import { useRouter } from "next/navigation";
-
 
 
 interface Evento {
@@ -48,9 +46,6 @@ const Dashboard = () => {
   const [openDelete, setOpenDelete] = useState(false)
 
   const data = useAuth()
-  
-
-
 
 
     const handleCreateEvent = async (eventData: { nombre: string; fecha: string; lugar: string }) => {
