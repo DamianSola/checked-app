@@ -7,7 +7,7 @@ const Auth = () => {
     const [login, setLogin] = useState(false)
 
     return(
-        <div className="md:flex bg-gray-900 text-gray-100 h-screen">
+        <div className="md:flex bg-gray-900 text-gray-100 h-screen py-6">
             {login ? 
             <Register changeLogin = {() => setLogin(!login)}/> :
             <Login changeRegister = {() => setLogin(!login)}/>

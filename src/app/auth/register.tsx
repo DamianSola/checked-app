@@ -27,7 +27,7 @@ const Register: React.FC<RegisterProps> = ({ changeLogin }) => {
   };
 
   return (
-    <div className="container mx-auto max-w-80 bg-gray-900 p-6 rounded-md shadow-lg my-6">
+    <div className="container mx-auto max-w-80 bg-gray-900 p-6 rounded-md shadow-lg ">
       <h2 className="text-2xl mb-4 text-pink-500">Registrarse</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
