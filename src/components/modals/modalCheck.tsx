@@ -97,6 +97,11 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           className="w-full p-2 mb-4 bg-gray-700 border border-pink-500 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
           value={inputValue}
           onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSearch(); // Llama a tu función de búsqueda
+            }
+          }}
           placeholder="Ingresa el número"
         />
         
@@ -106,16 +111,16 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         </div>
         <div className="flex justify-between">
           <button
-            onClick={handleSearch}
-            className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
-          >
-            Buscar
-          </button>
-          <button
             onClick={onClose}
             className="bg-gray-600 text-white py-2 px-4 rounded hover:bg-gray-700"
           >
             Cancelar
+          </button>
+          <button
+            onClick={handleSearch}
+            className="bg-pink-500 text-white py-2 px-4 rounded hover:bg-pink-600"
+          >
+            Buscar
           </button>
         </div>
       </div>

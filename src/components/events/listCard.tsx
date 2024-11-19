@@ -136,19 +136,19 @@ interface DeleteGuest {
                 <p className="text-white text-2xl ">{name} </p><p className="text-gray-300 text-sm"> {guest.length} invitados</p>
                 {open ? <p className="text-green-400 text-lg w-fit italic">abierta</p>: <p className="text-red-400 text-lg w-fit italic">cerrada</p>}
             </div>
-            <div className="flex justify-between md:justify-center items-center w-full md:space-x-4">
+            <div className="flex justify-between md:justify-center items-center w-full md:space-x-4 space-x-2">
                 <button onClick={updateList} 
-                className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold h-fit">
+                className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold h-fit w-full">
                   Editar
                 </button>
                 <button onClick={() => setShow(!show)}
-                    className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold h-fit">{show ? "Ocultar" : "Ver"}</button>
+                    className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold w-full h-fit">{show ? "Ocultar" : "Ver"}</button>
                 <button  onClick={() => setAdd(!add)} 
-                    className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold h-fit">
+                    className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold  w-full">
                         {add? "Listo" : "Agregar"}
                     </button>
                     <button onClick={() => setOpenDelete(true)}
-                className="bg-red-600  md:mx-2 lg:p-2 text-sm rounded-lg text-gray-300 hover:bg-red-400 w-fit font-semibold h-fit">
+                className="bg-red-600  md:mx-2 lg:p-2 p-1 text-sm rounded-lg text-gray-300 hover:bg-red-400 font-semibold h-fit w-fit">
                     <span className="material-symbols-outlined">
                     delete
                 </span>

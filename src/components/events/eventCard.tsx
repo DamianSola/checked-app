@@ -96,7 +96,7 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
             {showAlert.show && ( <CustomAlert message={showAlert.message} type={showAlert.types} onClose={() => setShowAlert({...showAlert, show: false})} /> )} 
 
             <div className="flex justify-between">
-                <h2 className="text-pink-500 text-sm md:text-2xl">{evento.nombre}</h2>
+                <h2 className="text-pink-500 text-xl md:text-2xl">{evento.nombre}</h2>
                 <h5 className="text-gray-200 text-xs  md:text-xl">{fechaFormateada}</h5>
             </div>
             <div className="border border-pink-500"></div>
@@ -107,12 +107,12 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
                     <p><strong>{listas.length}</strong> Listas</p>
                     <p><strong>{evento.lugar}</strong></p>
                 </div>
-                <button  onClick={enter} className="button-pink rounded-md md:rounded-xl w-full sm:w-fit font-semibold p-1 md:p-4 mt-4 mx-1 md:mt-0">Entrar</button>
-                <button onClick={() => setModalOpen(true)} className="button-pink rounded-md md:rounded-xl font-semibold mx-1 p-1 md:p-4 mt-4 md:mt-0">
+                <button  onClick={enter} className="button-pink sm:text-base text-xl rounded-md md:rounded-xl w-full sm:w-fit font-semibold p-2 md:p-4 mt-4 mx-1 md:mt-0">Entrar</button>
+                <button onClick={() => setModalOpen(true)} className="button-pink rounded-md md:rounded-xl font-semibold mx-2 p-2 md:p-4 mt-4 md:mt-0">
                     Editar
                 </button>
-                <button  onClick={() => setOpenDelete(true)} className="bg-red-500 rounded-md md:rounded-xl font-semibold mx-1 p-1 md:p-4 mt-4 md:mt-0">
-                <span className="material-symbols-outlined">
+                <button  onClick={() => setOpenDelete(true)} className="bg-red-500 rounded-md md:rounded-xl font-semibold mx-2 p-1 md:p-4 mt-4 md:mt-0">
+                <span className="material-symbols-outlined ">
                     delete
                 </span>
                 </button>
