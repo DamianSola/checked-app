@@ -5,18 +5,11 @@ import PremiumCard from '@/components/planes/premiumCard';
 import { useState, useEffect } from 'react';
 import { ClipLoader } from "react-spinners"; // Importamos el spinner
 
-interface ApiResponse {
-  status: number; // Cambiá los campos según los datos que retorna tu API
-  statustext: string;
- 
-}
-
 const apiUrl : string | undefined = process.env.NEXT_PUBLIC_API_URL
 
 console.log(apiUrl)
 
 const MyApp = () => {
-  const [data, setData] = useState<ApiResponse | null>(null); // Datos de la API
   const [loading, setLoading] = useState<boolean>(true); // Estado de carga
   const [error, setError] = useState<string | null>(null); // Manejo de errores
 
@@ -27,14 +20,11 @@ const MyApp = () => {
         throw new Error("La URL de la API no está definida");
       }
       const response = await fetch(`${apiUrl}/listen`);
-      console.log(response)
       if (response.status !== 200) {
         throw new Error("Error en la API");
       }
-      const result: ApiResponse = await response.json(); // Asegurate de que coincida con `ApiResponse`
-      setData(result);
+      
     } catch (err: unknown) {
-      // Verificamos que el error tenga un mensaje
       if (err instanceof Error) {
         setError(err.message);
       } else {
