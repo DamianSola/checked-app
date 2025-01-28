@@ -4,8 +4,6 @@ import FreeCard from '@/components/planes/freeCard';
 import PremiumCard from '@/components/planes/premiumCard';
 import { useState, useEffect } from 'react';
 import { ClipLoader } from "react-spinners"; // Importamos el spinner
-// import axios from 'axios';\
-import axiosInstance from '@/utils/axiosInstance';
 
 interface ApiResponse {
   status: number; // Cambiá los campos según los datos que retorna tu API
