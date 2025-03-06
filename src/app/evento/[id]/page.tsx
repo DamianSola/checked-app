@@ -159,60 +159,77 @@ const Event = () => {
 
 
     return(
+<div className="bg-gray-900 md:px-10 px-6 min-h-screen">
+    <ModalCheck isOpen={open} onClose={() => setOpen(false)} />
+    <ModalCreateList 
+        isOpen={createModal}
+        onClose={() => setCreateModal(false)}
+        onCreate={handleCreateList}
+    />
+    <EditModal
+        isOpen={isEditModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onUpdate={handleUpdate}
+        currentName={currentList.name}
+        currentIsOpen={currentList.open}
+    />
 
-        <div className="bg-gray-900 md:px-10 px-6 min-h-screen">
-            <ModalCheck isOpen={open} onClose={() => setOpen(false)}/>
-            <ModalCreateList 
-            isOpen={createModal}
-            onClose={() => setCreateModal(false)}
-            onCreate={handleCreateList}
-            />
-            <EditModal
-                isOpen={isEditModalOpen}
-                onClose={() => setEditModalOpen(false)}
-                onUpdate={handleUpdate}
-                currentName={currentList.name}
-                currentIsOpen ={currentList.open}
-            />
-
-            <div className="justify-center">
-                {evento? <p className="text-gray-200 text-xl mb-2">{evento.nombre}</p>:
-                <p className="text-gray-200 text-xl mb-2">Cargando Evento...</p>}
-                <div className="border border-pink-500"></div>
-            </div>
-            <div className="text-center md:flex">
-                <div>
-                    <GuestScore eventoId={String(id)}/>
-                    <button onClick={() => setOpen(!open)} 
-                        className="bg-green-500 p-6 text-gray-900 font-bold text-xl my-2 rounded-xl">To Check</button>
-                </div>
-                <div className="w-full py-4">
-                    <p className="text-gray-200 text-lg mb-4">Listas</p>
-                    <div className="border border-pink-500"></div>
-                    {!evento ? <p className='text-white m-10'>Cargando Listas</p>:
-                     lists.length > 0 ? (
-                        lists.map((l, i) => (
-                            <ListCard 
-                            deleteList={() => deleteList(l._id)}
-                                key={i} 
-                                _id={l._id} 
-                                name={l.nombre} 
-                                open={l.abierta} 
-                                guest={l.invitados}
-                                updateList={() => openEditModal({_id: l._id, nombre: l.nombre, open:l.abierta})}
-                            />
-                        ))
-                    ) : (
-                    <div className='m-6'>
-                        <p className='text-white'>No tienes listas todavía</p>
-                    </div>
-                    )}
-                    {showAlert.show && ( <CustomAlert message={showAlert.message} type={showAlert.types} onClose={() => setShowAlert({...showAlert, show: false})} /> )} 
-                    <button className='font-semibold text-pink-500 p-4' onClick={() => setCreateModal(true)}>Crear Lista</button>
-                </div>
-            </div>
+    <div className="justify-center mb-6">
+        {evento ? (
+            <p className="text-gray-200 text-2xl font-bold mb-2">{evento.nombre}</p>
+        ) : (
+            <p className="text-gray-200 text-2xl font-bold mb-2">Cargando Evento...</p>
+        )}
+        <div className="border-t border-pink-500"></div>
+    </div>
+    <div className="text-center md:flex md:space-x-6">
+        <div className="mb-6 md:mb-0">
+            <GuestScore eventoId={String(id)} />
+            <button 
+                onClick={() => setOpen(!open)} 
+                className="bg-green-500 p-6 text-gray-900 font-bold text-xl my-2 rounded-xl transition ease-in-out duration-300 transform hover:scale-105"
+            >
+                To Check
+            </button>
         </div>
-
+        <div className="w-full py-4">
+            <p className="text-gray-200 text-xl font-semibold mb-4">Listas</p>
+            <div className="border-t border-pink-500"></div>
+            {!evento ? (
+                <p className='text-white my-10'>Cargando Listas</p>
+            ) : lists.length > 0 ? (
+                lists.map((l, i) => (
+                    <ListCard 
+                        deleteList={() => deleteList(l._id)}
+                        key={i} 
+                        _id={l._id} 
+                        name={l.nombre} 
+                        open={l.abierta} 
+                        guest={l.invitados}
+                        updateList={() => openEditModal({_id: l._id, nombre: l.nombre, open: l.abierta})}
+                    />
+                ))
+            ) : (
+                <div className='my-6'>
+                    <p className='text-white text-lg'>No tienes listas todavía</p>
+                </div>
+            )}
+            {showAlert.show && (
+                <CustomAlert 
+                    message={showAlert.message} 
+                    type={showAlert.types} 
+                    onClose={() => setShowAlert({ ...showAlert, show: false })}
+                /> 
+            )}
+            <button 
+                className="font-semibold text-pink-500 p-4 transition ease-in-out duration-300 transform hover:scale-105"
+                onClick={() => setCreateModal(true)}
+            >
+                Crear Lista
+            </button>
+        </div>
+    </div>
+</div>
     )
 }
 

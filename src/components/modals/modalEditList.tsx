@@ -31,9 +31,9 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onUpdate, curren
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-            <div className="bg-gray-900 rounded-lg shadow-lg p-6 w-96">
-                <h2 className="text-gray-200 text-lg font-bold mb-4">Modificar Lista</h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
+                <h2 className="text-pink-500 text-lg font-bold mb-4">Modificar Lista</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-gray-200 mb-2" htmlFor="name">
@@ -44,7 +44,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onClose, onUpdate, curren
                             id="name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            className={`border rounded w-full py-2 px-3 ${
+                            className={`border bg-gray-600 rounded w-full py-2 px-3 ${
                                 error ? 'border-red-500' : 'border-gray-300'
                             }`}
                             placeholder="Ingrese el nuevo nombre"

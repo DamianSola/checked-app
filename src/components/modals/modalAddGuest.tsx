@@ -87,7 +87,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div className="fixed inset-0 flex z-50 items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-gray-800 text-white rounded-lg p-6 w-11/12 sm:w-96">
         {showAlert.show && (
           <CustomAlert
@@ -103,7 +103,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
           name="nombre"
           value={inputValue.nombre}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 bg-gray-700 border border-pink-500 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
           placeholder="Nombre completo"
         />
         <input
@@ -111,7 +111,7 @@ const ModalAddGuest: React.FC<ModalProps> = ({ isOpen, onClose, listId, listName
           name="dni"
           value={inputValue.dni}
           onChange={handleInputChange}
-          className="w-full p-2 mb-4 bg-gray-700 border border-pink-500 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
           placeholder="Agregar DNI"
         />
 

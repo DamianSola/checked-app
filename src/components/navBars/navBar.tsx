@@ -55,7 +55,7 @@ const NavBar = () => {
 
       {/* Mobile Menu - Sliding Drawer */}
       {open && (
-        <div className="fixed inset-0 bg-gray-900 bg-transparent flex justify-end ">
+        <div className="fixed z-20 inset-0 bg-gray-900 bg-transparent flex justify-end ">
           <div className="w-1/2 md:w-1/4 bg-gray-800 h-full p-6 space-y-6 transform transition-transform duration-700">
             <button
               onClick={() => setOpen(false)}

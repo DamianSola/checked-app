@@ -21,7 +21,7 @@ const DeleteAccountModal = ({isOpen, onClose, onDelete }: ModalProps) => {
     if(!isOpen) return null
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
             <div className="bg-gray-900 rounded-lg p-6 max-w-sm w-full">
                 <h2 className="text-xl font-semibold text-red-600 mb-4">
                     Seguro que quieres borrar la cuenta?

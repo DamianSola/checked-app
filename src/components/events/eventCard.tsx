@@ -90,35 +90,53 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
 
 
     return(
-        <div className="bg-gray-800 my-6 p-6 xl:w-3/4 rounded-xl ">
-            <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete}/>
-            <EventModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} onEdit={HandleUpdate}/>
-            {showAlert.show && ( <CustomAlert message={showAlert.message} type={showAlert.types} onClose={() => setShowAlert({...showAlert, show: false})} /> )} 
-
-            <div className="flex justify-between">
-                <h2 className="text-pink-500 text-xl md:text-2xl">{evento.nombre}</h2>
-                <h5 className="text-gray-200 text-xs  md:text-xl">{fechaFormateada}</h5>
+        <div className="bg-gradient-to-r from-gray-800 to-gray-600 shadow-lg my-6 p-6 xl:w-3/4 rounded-2xl">
+        <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete} />
+        <EventModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} onEdit={HandleUpdate} />
+        {showAlert.show && (
+            <CustomAlert
+                message={showAlert.message}
+                type={showAlert.types}
+                onClose={() => setShowAlert({ ...showAlert, show: false })}
+            />
+        )}
+    
+        <div className="flex justify-between items-center mb-4">
+            <h2 className="text-pink-500 text-2xl md:text-3xl font-bold">{evento.nombre}</h2>
+            <h5 className="text-gray-200 text-xs md:text-lg font-medium">{fechaFormateada}</h5>
+        </div>
+        <div className="border-t border-pink-500 mb-4"></div>
+    
+        <div className="text-gray-300 block md:flex text-center items-center justify-between mt-4">
+            <div className="flex justify-between md:w-1/2 mb-4 md:mb-0">
+                <p className="mr-4"><strong>{listas.length}</strong> Listas</p>
+                <p><strong>{evento.lugar}</strong></p>
             </div>
-            <div className="border border-pink-500"></div>
-            {/* <div>{place}</div> */}
-           
-            <div className="text-gray-300 block md:flex text-center items-center justify-between  mt-4">
-                <div className="flex justify-between md:w-1/2">
-                    <p><strong>{listas.length}</strong> Listas</p>
-                    <p><strong>{evento.lugar}</strong></p>
-                </div>
-                <button  onClick={enter} className="button-pink sm:text-base text-xl rounded-md md:rounded-xl w-full sm:w-fit font-semibold p-2 md:p-4 mt-4 mx-1 md:mt-0">Entrar</button>
-                <button onClick={() => setModalOpen(true)} className="button-pink rounded-md md:rounded-xl font-semibold mx-2 p-2 md:p-4 mt-4 md:mt-0">
+            <div className="flex space-x-2">
+                <button
+                    onClick={enter}
+                    className="button-pink sm:text-base text-xl rounded-lg w-full sm:w-auto font-semibold px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                >
+                    Entrar
+                </button>
+                <button
+                    onClick={() => setModalOpen(true)}
+                    className="button-pink rounded-lg font-semibold mx-2 px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                >
                     Editar
                 </button>
-                <button  onClick={() => setOpenDelete(true)} className="bg-red-500 rounded-md md:rounded-xl font-semibold mx-2 p-1 md:p-4 mt-4 md:mt-0">
-                <span className="material-symbols-outlined ">
-                    delete
-                </span>
+                <button
+                    onClick={() => setOpenDelete(true)}
+                    className="bg-red-500 rounded-lg font-semibold mx-2 px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                >
+                    <span className="material-symbols-outlined">
+                        delete
+                    </span>
                 </button>
             </div>
-
         </div>
+    </div>
+    
     )
 }
 

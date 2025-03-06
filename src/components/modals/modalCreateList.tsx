@@ -25,7 +25,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onCreate }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
             <div className="bg-gray-800 rounded-lg shadow-lg p-6 w-96">
                 <h2 className="text-lg text-pink-500 font-bold mb-4">Crear Nueva Lista</h2>
                 <form onSubmit={handleSubmit}>

@@ -120,104 +120,105 @@ interface DeleteGuest {
     }
 
     return (
-        <div className="rounded-xl bg-gray-800 p-6 md:p-8 text-center w-full my-4">
-          <ModalAddGuest isOpen={add} onClose={() => setAdd(!add)} listId={_id} listName={name} />
-          {showAlert.show && (
-            <CustomAlert
+      <div className="rounded-2xl bg-gradient-to-r from-gray-800 to-gray-600 shadow-xl p-6 md:p-8 text-center w-full my-6">
+      <ModalAddGuest isOpen={add} onClose={() => setAdd(!add)} listId={_id} listName={name} />
+      {showAlert.show && (
+          <CustomAlert
               message={showAlert.message}
               type={showAlert.types}
               onClose={() => setShowAlert({ ...showAlert, show: false })}
-            />
-          )}
-          <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete} />
-          <ModalAlert
-            open={openDeleteGuest.open}
-            onClose={() => setOpenDeleteGuest({ ...openDeleteGuest, open: false })}
-            handleDelete={() => deleteGuestAlert(openDeleteGuest.guestId)}
           />
-      
-          <div className="md:flex md:items-center md:justify-between md:space-x-4">
-            <div className="flex flex-col md:flex-row justify-between mb-2 items-center w-full">
-              <p className="text-white text-2xl">{name}</p>
+      )}
+      <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete} />
+      <ModalAlert
+          open={openDeleteGuest.open}
+          onClose={() => setOpenDeleteGuest({ ...openDeleteGuest, open: false })}
+          handleDelete={() => deleteGuestAlert(openDeleteGuest.guestId)}
+      />
+  
+      <div className="md:flex md:items-center md:justify-between md:space-x-4 mb-4">
+          <div className="flex flex-col md:flex-row justify-between items-center w-full">
+              <p className="text-white text-2xl font-bold">{name}</p>
               <p className="text-gray-300 text-sm">{guest.length} invitados</p>
               <p className={`text-lg w-fit italic ${open ? 'text-green-400' : 'text-red-400'}`}>
-                {open ? 'abierta' : 'cerrada'}
+                  {open ? 'abierta' : 'cerrada'}
               </p>
-            </div>
-            <div className="flex justify-between md:justify-center items-center w-full md:space-x-4 space-x-2">
-              <button
-                onClick={updateList}
-                className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold h-fit w-full"
-              >
-                Editar
-              </button>
-              <button
-                onClick={() => setShow(!show)}
-                className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold w-full h-fit"
-              >
-                {show ? 'Ocultar' : 'Ver'}
-              </button>
-              <button
-                onClick={() => setAdd(!add)}
-                className="button-pink p-2 lg:p-4 text-sm rounded-md md:rounded-xl hover:bg-pink-400 font-semibold w-full"
-              >
-                {add ? 'Listo' : 'Agregar'}
-              </button>
-              <button
-                onClick={() => setOpenDelete(true)}
-                className="bg-red-600 md:mx-2 lg:p-2 p-1 text-sm rounded-lg text-gray-300 hover:bg-red-400 font-semibold h-fit w-fit"
-              >
-                <span className="material-symbols-outlined">delete</span>
-              </button>
-            </div>
           </div>
-      
-          {show && (
-            <div>
+          <div className="flex justify-between md:justify-center items-center w-full md:space-x-4 space-x-2">
+              <button
+                  onClick={updateList}
+                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+              >
+                  Editar
+              </button>
+              <button
+                  onClick={() => setShow(!show)}
+                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+              >
+                  {show ? 'Ocultar' : 'Ver'}
+              </button>
+              <button
+                  onClick={() => setAdd(!add)}
+                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+              >
+                  {add ? 'Listo' : 'Agregar'}
+              </button>
+              <button
+                  onClick={() => setOpenDelete(true)}
+                  className="bg-red-600 p-2 lg:p-4 text-sm rounded-lg text-gray-300 hover:bg-red-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 h-fit w-fit"
+              >
+                  <span className="material-symbols-outlined">delete</span>
+              </button>
+          </div>
+      </div>
+  
+      {show && (
+          <div>
               <div className="py-4">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={handleSearchChange}
-                  placeholder="Buscar invitado"
-                  className="rounded-lg p-2 text-gray-900 w-full"
-                />
+                  <input
+                      type="text"
+                      value={search}
+                      onChange={handleSearchChange}
+                      placeholder="Buscar invitado"
+                      className="rounded-lg p-2 text-gray-900 w-full"
+                  />
               </div>
               <div className="block text-gray-300 min-h-20 text-center items-center">
-                {guest.length ? (
-                  filteredGuests.map((g) => (
-                    <li
-  className="flex items-center justify-between p-2 bg-gray-800 rounded-lg mb-2 border border-gray-700"
-  key={g._id}
->
-  <div className="text-white text-sm font-medium flex-1 text-left">{g.nombre}</div>
-  <div
-    className={`text-center text-sm font-semibold flex-1 ${
-      g.estado === 'pendiente' ? 'text-yellow-500' : 'text-green-500'
-    }`}
-  >
-    {g.estado}
-  </div>
-  <div className="text-gray-300 text-sm text-center flex-1">{g.dni}</div>
-  {g.estado === 'pendiente' && (
-    <div className=" text-right">
-      <button
-        onClick={() => setOpenDeleteGuest({ guestId: g._id, open: true })}
-        className="bg-transparent border-red-600 text-white font-semibold rounded-md "
-      >
-        <span className="material-symbols-outlined">delete</span>
-      </button>
-    </div>
-  )}
-</li>
-                  ))
-                ) : (
-                  <p className="text-white text-center">No hay invitados</p>
-                )}
+                  {guest.length ? (
+                      filteredGuests.map((g) => (
+                          <li
+                              className="flex items-center justify-between p-2 bg-gray-800 rounded-lg mb-2 border border-gray-700"
+                              key={g._id}
+                          >
+                              <div className="text-white text-sm font-medium flex-1 text-left">{g.nombre}</div>
+                              <div
+                                  className={`text-center text-sm font-semibold flex-1 ${
+                                      g.estado === 'pendiente' ? 'text-yellow-500' : 'text-green-500'
+                                  }`}
+                              >
+                                  {g.estado}
+                              </div>
+                              <div className="text-gray-300 text-sm text-center flex-1">{g.dni}</div>
+                              {g.estado === 'pendiente' && (
+                                  <div className="text-right">
+                                      <button
+                                          onClick={() => setOpenDeleteGuest({ guestId: g._id, open: true })}
+                                          className="bg-transparent border-red-600 text-white font-semibold rounded-md"
+                                      >
+                                          <span className="material-symbols-outlined">delete</span>
+                                      </button>
+                                  </div>
+                              )}
+                          </li>
+                      ))
+                  ) : (
+                      <p className="text-white text-center">No hay invitados</p>
+                  )}
               </div>
-            </div>
-          )}
-        </div>
+          </div>
+      )}
+  </div>
+  
       );
 }
 

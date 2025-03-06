@@ -32,3 +32,15 @@ body {
   color: #111827
 }
 
+.button-blue{
+  background-color: #1b53cd;
+  color:  #ffffff;
+  /* border: solid 1px; */
+  border-color: #ffffff
+}
+
+.button-blue:hover{
+  background-color: #1344ad;
+  color:  #e1e1e1;
+
+}

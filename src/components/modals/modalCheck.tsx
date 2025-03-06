@@ -85,7 +85,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-75">
       <div className="bg-gray-800 text-white rounded-lg p-6 w-11/12 sm:w-96">
       
         <h2 className="text-xl mb-4 text-pink-500">Buscar Dni del invitado</h2>
@@ -94,7 +94,7 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           type="number"
           inputMode="numeric"
           pattern="[0-9]*"
-          className="w-full p-2 mb-4 bg-gray-700 border border-pink-500 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+          className="w-full p-2 mb-4 bg-gray-700 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={(e) => {

@@ -54,7 +54,7 @@ const MyApp = () => {
           Checked es la manera más fácil de organizar un evento, armar listas y controlar asistencia en el momento.
         </p>
       </header>
-      <section className="hidden p-6 justify-evenly w-full max-w-4xl mx-auto">
+      <section className="p-6 md:flex justify-evenly w-full max-w-4xl mx-auto">
         <FreeCard />
         <PremiumCard />
       </section>
