@@ -1,7 +1,7 @@
 'use client'
 import './globals.css';
-import FreeCard from '@/components/planes/freeCard';
-import PremiumCard from '@/components/planes/premiumCard';
+// import FreeCard from '@/components/planes/freeCard';
+// import PremiumCard from '@/components/planes/premiumCard';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { ClipLoader } from "react-spinners"; // Importamos el spinner

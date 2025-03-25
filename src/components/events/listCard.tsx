@@ -3,7 +3,7 @@ import ModalAddGuest from "../modals/modalAddGuest"
 import axiosInstance from "@/utils/axiosInstance"
 import CustomAlert from "../CustomAlert"
 import ModalAlert from "../modals/modalAlert.";
-import ModalManyGuest from "../modals/modalManyGuest";
+// import ModalManyGuest from "../modals/modalManyGuest";
 
 
 interface ListProps {
