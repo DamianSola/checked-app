@@ -77,11 +77,16 @@ const ModalCheck: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     } 
   }
 
+  const refreshSearch =() => {
+    onClose()
+    setGuest(undefined)
+  }
+
 
   if (!isOpen) return null;
 
   if(guest){
-    return (<GuestEncontrado guest={guest} checkGuest={checkGuest} onClose={onClose}/>)
+    return (<GuestEncontrado guest={guest} checkGuest={checkGuest} onClose={refreshSearch}/>)
   }
 
   return (
@@ -134,9 +139,10 @@ interface Encontrado {
   checkGuest: () => void;
   onClose: () => void;
 }
-const GuestEncontrado = ({guest,checkGuest,onClose }:Encontrado) =>{
+ 
+const GuestEncontrado = ({guest,checkGuest,onClose}:Encontrado) =>{
   return(
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
+    <div className="fixed inset-0 flex z-50 items-center justify-center bg-gray-800 bg-opacity-75">
   <div className="bg-gray-900 text-white rounded-lg p-8 w-11/12 sm:w-96 shadow-lg">
     <h2 className="text-2xl font-semibold mb-4 text-center">Detalles del Invitado</h2>
     
@@ -157,13 +163,22 @@ const GuestEncontrado = ({guest,checkGuest,onClose }:Encontrado) =>{
           Cerrar
         </button>
       ) : (
+        <div className='flex w-full justify-around'>
+          <button
+          onClick={onClose}
+          className="bg-gray-500 hover:bg-yellow-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-300"
+        >
+          Cancelar
+        </button>
         <button
           onClick={checkGuest}
           className="bg-green-500 hover:bg-green-600 text-gray-900 font-semibold py-2 px-4 rounded-lg shadow-md transition-colors duration-300"
-        >
+          >
           Admitir
         </button>
+          </div>
       )}
+      
     </div>
   </div>
 </div>

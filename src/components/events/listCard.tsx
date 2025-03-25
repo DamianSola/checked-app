@@ -3,6 +3,7 @@ import ModalAddGuest from "../modals/modalAddGuest"
 import axiosInstance from "@/utils/axiosInstance"
 import CustomAlert from "../CustomAlert"
 import ModalAlert from "../modals/modalAlert.";
+import ModalManyGuest from "../modals/modalManyGuest";
 
 
 interface ListProps {
@@ -122,6 +123,7 @@ interface DeleteGuest {
     return (
       <div className="rounded-2xl bg-gradient-to-r from-gray-800 to-gray-600 shadow-xl p-6 md:p-8 text-center w-full my-6">
       <ModalAddGuest isOpen={add} onClose={() => setAdd(!add)} listId={_id} listName={name} />
+        {/* <ModalManyGuest/> */}
       {showAlert.show && (
           <CustomAlert
               message={showAlert.message}
