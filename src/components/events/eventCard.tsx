@@ -90,7 +90,7 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
 
 
     return(
-        <div className="bg-gradient-to-r from-gray-800 to-gray-600 shadow-lg my-6 p-6 xl:w-3/4 rounded-2xl">
+        <div className="bg-gray-800 shadow-lg my-6 p-6 xl:w-3/4 rounded-2xl">
         <ModalAlert open={openDelete} onClose={() => setOpenDelete(false)} handleDelete={handleDelete} />
         <EventModal isOpen={isModalOpen} onClose={() => setModalOpen(false)} onEdit={HandleUpdate} />
         {showAlert.show && (
@@ -102,7 +102,7 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
         )}
     
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-pink-500 text-2xl md:text-3xl font-bold">{evento.nombre}</h2>
+            <h2 className="text-gray-300 text-2xl md:text-3xl font-bold">{evento.nombre}</h2>
             <h5 className="text-gray-200 text-xs md:text-lg font-medium">{fechaFormateada}</h5>
         </div>
         <div className="border-t border-pink-500 mb-4"></div>
@@ -115,19 +115,19 @@ const EventCard :React.FC<EventCardProps> = ({ name, place, date, id, listas, on
             <div className="flex space-x-2">
                 <button
                     onClick={enter}
-                    className="button-pink sm:text-base text-xl rounded-lg w-full sm:w-auto font-semibold px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                    className="button-2 text-pink-500 border border-pink-500 bg-gray-800 font-semibold hover:bg-gray-900"
                 >
                     Entrar
                 </button>
                 <button
                     onClick={() => setModalOpen(true)}
-                    className="button-pink rounded-lg font-semibold mx-2 px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                    className="button-2 text-pink-500 border border-pink-500 bg-gray-800 font-semibold hover:bg-gray-900"
                 >
                     Editar
                 </button>
                 <button
                     onClick={() => setOpenDelete(true)}
-                    className="bg-red-500 rounded-lg font-semibold mx-2 px-4 py-2 md:px-6 md:py-3 mt-4 md:mt-0 transition ease-in-out duration-300 transform hover:scale-105"
+                    className="button-2 text-gray-300 bg-red-600 font-semibold hover:bg-red-700 hover:text-gray-400"
                 >
                     <span className="material-symbols-outlined">
                         delete

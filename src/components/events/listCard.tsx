@@ -121,7 +121,7 @@ interface DeleteGuest {
     }
 
     return (
-      <div className="rounded-2xl bg-gradient-to-r from-gray-800 to-gray-600 shadow-xl p-6 md:p-8 text-center w-full my-6">
+      <div className="rounded-2xl bg-gray-800 shadow-xl p-6 md:p-8 text-center w-full my-6">
       <ModalAddGuest isOpen={add} onClose={() => setAdd(!add)} listId={_id} listName={name} />
         {/* <ModalManyGuest/> */}
       {showAlert.show && (
@@ -149,25 +149,25 @@ interface DeleteGuest {
           <div className="flex justify-between md:justify-center items-center w-full md:space-x-4 space-x-2">
               <button
                   onClick={updateList}
-                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+                  className="button-2 text-pink-500 border border-pink-500 bg-gray-800 font-semibold hover:bg-gray-900"
               >
                   Editar
               </button>
               <button
                   onClick={() => setShow(!show)}
-                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+                  className="button-2 text-pink-500 border border-pink-500 bg-gray-800 font-semibold hover:bg-gray-900"
               >
                   {show ? 'Ocultar' : 'Ver'}
               </button>
               <button
                   onClick={() => setAdd(!add)}
-                  className="button-pink p-2 lg:p-4 text-sm rounded-lg hover:bg-pink-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 w-full"
+                  className="button-2 text-pink-500 border border-pink-500 bg-gray-800 font-semibold hover:bg-gray-900"
               >
                   {add ? 'Listo' : 'Agregar'}
               </button>
               <button
                   onClick={() => setOpenDelete(true)}
-                  className="bg-red-600 p-2 lg:p-4 text-sm rounded-lg text-gray-300 hover:bg-red-400 font-semibold transition ease-in-out duration-300 transform hover:scale-105 h-fit w-fit"
+                  className="button-2 text-gray-300 bg-red-600 font-semibold hover:bg-red-700 hover:text-gray-400"
               >
                   <span className="material-symbols-outlined">delete</span>
               </button>

@@ -19,6 +19,7 @@ const GuestScore: React.FC<GuestScoreProps> = ({eventoId}) => {
     const getGuest = async () => {
         try{
             const response = await axiosInstance.get(`/guest/guestEvent/${eventoId}`)
+            console.log(response)
             const presentGuest = response.data.filter((g:{estado:string}) => g.estado === 'admitido')
 
             SetCount({total: response.data.length, present: presentGuest.length})
@@ -40,14 +41,14 @@ const GuestScore: React.FC<GuestScoreProps> = ({eventoId}) => {
 
 
     return (
-        <div className="rounded-2xl bg-gradient-to-r from-gray-800 to-gray-600 shadow-xl p-8 text-center m-4 md:w-60">
-        <p className="text-sm text-gray-400">Ingresaron</p>
+        <div className="rounded-2xl bg-gray-800 to-gray-600 shadow-xl p-8 text-center m-4 md:w-60">
+        <p className="text-sm text-gray-300 font-semibold">Ingresaron</p>
         <div className="flex p-4 justify-around items-center">
             <p className="text-green-500 text-4xl">{count.present}</p>
-            <p className="text-sm text-gray-400">/</p>
-            <p className="text-pink-500 text-4xl">{count.total}</p>
+            <p className="text-sm text-gray-400 font-semibold">de</p>
+            <p className="text-gray-400 text-4xl">{count.total}</p>
         </div>
-        <p className="text-sm text-gray-400">Invitados</p>
+        <p className="text-sm text-gray-300 font-semibold">Invitados</p>
     </div>
     
     )

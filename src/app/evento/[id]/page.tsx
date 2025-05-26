@@ -184,10 +184,10 @@ const Event = () => {
     </div>
     <div className="text-center md:flex md:space-x-6">
         <div className="mb-6 md:mb-0">
-            <GuestScore eventoId={String(id)} />
+            <GuestScore eventoId={String(id)}  />
             <button 
                 onClick={() => setOpen(!open)} 
-                className="bg-green-500 p-6 text-gray-900 font-bold text-xl my-2 rounded-xl transition ease-in-out duration-300 transform hover:scale-105"
+                className="button-global bg-green-500  text-white font-bold text-xl hover:text-gray-300 hover:bg-green-600"
             >
                 To Check
             </button>

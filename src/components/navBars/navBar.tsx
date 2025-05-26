@@ -29,7 +29,7 @@ const NavBar = () => {
           <div className="flex items-center space-x-4">
             <button
               onClick={() => setOpen(!open)}
-              className="bg-pink-500 text-gray-900 py-2 px-4 rounded-full shadow-md"
+              className="button-global bg-pink-600 text-gray-100 hover:bg-pink-700 hover:text-gray-200"
             >
               {user.nombre}
             </button>
@@ -39,7 +39,7 @@ const NavBar = () => {
 
       {/* Mobile Menu Toggle */}
       <div className="md:hidden">
-        <button onClick={() => setOpen(!open)} className="text-gray-300 hover:text-pink-500">
+        <button onClick={() => setOpen(!open)} className="text-gray-300 hover:text-pink-500 ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -74,9 +74,9 @@ const NavBar = () => {
                   <p className="text-pink-500 font-semibold text-md md:text-xl">
                     {user.nombre}
                   </p>
-                  <a href="/dashboard" className="text-gray-300 hover:text-pink-500">
+                  <a href="/dashboard" className="text-gray-300 font-semibold hover:text-pink-500">
                     Dashboard
-                  </a><a href="/dashboard#perfil" className="text-gray-300 hover:text-pink-500">
+                  </a><a href="/dashboard#perfil" className="text-gray-300 font-semibold hover:text-pink-500">
                     Perfil
                   </a>
                   <button
