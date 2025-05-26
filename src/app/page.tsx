@@ -8,8 +8,6 @@ import Image from 'next/image';
 
 import { ClipLoader } from "react-spinners"; // Importamos el spinner
 import phone from "../images/phone.png"
-import phone2 from "../images/phone2.png"
-import phone3 from "../images/phone3.png"
 import mac from "../images/mac.png"
 
 const apiUrl : string | undefined = process.env.NEXT_PUBLIC_API_URL
